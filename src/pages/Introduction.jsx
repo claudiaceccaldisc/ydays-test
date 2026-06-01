@@ -22,7 +22,11 @@ export default function Introduction() {
           MINI-PARCOURS INTERACTIF · 10 MINUTES
         </p>
 
-        <MascotGuide mood={getMascotForStep("introduction")} className="max-w-sm" />
+        <MascotGuide
+          mood={getMascotForStep("introduction")}
+          className="max-w-[10rem]"
+          imageOnly
+        />
 
         <h1 className="font-titre text-2xl font-bold leading-tight text-bleu-nuit sm:text-[26px]">
           Bonjour ! Je suis Léa, votre guide RH×IA

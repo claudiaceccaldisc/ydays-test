@@ -3,6 +3,8 @@ import { mascotGuideContent, type MascotMood } from "../data/mascotGuide";
 type MascotGuideProps = {
   mood: MascotMood;
   className?: string;
+  imageOnly?: boolean;
+  compact?: boolean;
 };
 
 const mascotAnimationClass: Record<MascotMood, string> = {
@@ -17,54 +19,73 @@ const mascotAnimationClass: Record<MascotMood, string> = {
   reflection: "mascot-guide-reflection",
 };
 
-export default function MascotGuide({ mood, className = "" }: MascotGuideProps) {
+export default function MascotGuide({
+  mood,
+  className = "",
+  imageOnly = false,
+  compact = false,
+}: MascotGuideProps) {
   const content = mascotGuideContent[mood];
 
   return (
     <aside
-      className={`mascot-guide-card ${mascotAnimationClass[mood]} mascot-guide-glow w-full max-w-md overflow-hidden rounded-3xl border border-white/60 ${className}`}
-      style={{ backgroundColor: "var(--mascot-cream)" }}
+      className={`mascot-guide-card ${mascotAnimationClass[mood]} ${
+        compact ? "mascot-guide-compact" : "mascot-guide-glow w-full max-w-md rounded-3xl border border-white/60"
+      } overflow-hidden ${className}`}
+      style={compact ? undefined : { backgroundColor: "var(--mascot-cream)" }}
       aria-live="polite"
     >
-      <div className="flex flex-col gap-4 p-5 sm:flex-row sm:items-center sm:p-6">
+      <div
+        className={`flex p-5 sm:p-6 ${
+          imageOnly
+            ? "items-center justify-center"
+            : "flex-col gap-4 sm:flex-row sm:items-center"
+        }`}
+      >
         <div
-          className="flex h-24 w-24 shrink-0 items-center justify-center self-center rounded-2xl p-3 sm:h-28 sm:w-28"
+          className={`mascot-guide-frame flex shrink-0 items-center justify-center self-center rounded-2xl p-3 ${
+            compact ? "h-20 w-20 sm:h-24 sm:w-24" : "h-24 w-24 sm:h-28 sm:w-28"
+          }`}
           style={{ backgroundColor: content.accent }}
         >
           <img
             src={content.image}
             alt={content.title}
-            className="h-full w-full object-contain"
+            className="mascot-guide-image h-full w-full object-contain"
           />
         </div>
 
-        <div className="text-center sm:text-left">
-          <p
-            className="text-sm font-semibold uppercase tracking-[0.18em]"
-            style={{ color: content.accent }}
-          >
-            Mascotte guide
-          </p>
-          <h2
-            className="mt-2 text-2xl font-bold sm:text-[1.75rem]"
-            style={{ color: "var(--mascot-navy)" }}
-          >
-            {content.title}
-          </h2>
-          <p
-            className="mt-2 text-sm leading-6 sm:text-base"
-            style={{ color: "var(--mascot-navy)" }}
-          >
-            {content.message}
-          </p>
-        </div>
+        {!imageOnly ? (
+          <div className="text-center sm:text-left">
+            <p
+              className="text-sm font-semibold uppercase tracking-[0.18em]"
+              style={{ color: content.accent }}
+            >
+              Mascotte guide
+            </p>
+            <h2
+              className="mt-2 text-2xl font-bold sm:text-[1.75rem]"
+              style={{ color: "var(--mascot-navy)" }}
+            >
+              {content.title}
+            </h2>
+            <p
+              className="mt-2 text-sm leading-6 sm:text-base"
+              style={{ color: "var(--mascot-navy)" }}
+            >
+              {content.message}
+            </p>
+          </div>
+        ) : null}
       </div>
 
-      <div
-        className="h-2 w-full"
-        style={{ backgroundColor: content.accent }}
-        aria-hidden="true"
-      />
+      {!imageOnly && !compact ? (
+        <div
+          className="h-2 w-full"
+          style={{ backgroundColor: content.accent }}
+          aria-hidden="true"
+        />
+      ) : null}
     </aside>
   );
 }

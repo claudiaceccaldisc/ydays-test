@@ -113,9 +113,14 @@ export default function Quiz() {
             </div>
           </div>
 
-          <div className="flex w-full flex-col items-center gap-4 sm:flex-row sm:items-start">
-            <MascotGuide mood={mascotMood} className="max-w-sm shrink-0" />
-            <div className="quiz-bubble quiz-bubble-left quiz-bubble-mascot w-full rounded-3xl bg-ivoire px-5 py-4 text-left">
+          <div className="flex w-full flex-col items-center gap-3 sm:flex-row sm:items-center sm:gap-4">
+            <MascotGuide
+              mood={mascotMood}
+              className="shrink-0"
+              imageOnly
+              compact
+            />
+            <div className="quiz-bubble quiz-bubble-left quiz-bubble-mascot w-full rounded-3xl bg-ivoire px-5 py-4 text-left sm:flex-1">
               <p className="font-corps text-sm leading-6 text-black/80">
                 {currentModule.moduleMascotText || quizIntro.text}
               </p>
@@ -129,10 +134,15 @@ export default function Quiz() {
         </>
       ) : (
         <>
-          <div className="flex w-full flex-col items-center gap-4 sm:flex-row sm:items-start">
-            <MascotGuide mood={mascotMood} className="max-w-sm shrink-0" />
+          <div className="flex w-full flex-col items-center gap-3 sm:flex-row sm:items-center sm:gap-4">
+            <MascotGuide
+              mood={mascotMood}
+              className="shrink-0"
+              imageOnly
+              compact
+            />
             <div
-              className={`quiz-bubble quiz-bubble-right w-full rounded-3xl bg-carte px-5 py-4 text-left ${
+              className={`quiz-bubble quiz-bubble-right w-full rounded-3xl bg-carte px-5 py-4 text-left sm:flex-1 ${
                 isSubmitted
                   ? currentAnswer?.isCorrect
                     ? "quiz-bubble-success"
