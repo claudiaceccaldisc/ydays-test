@@ -12,7 +12,8 @@ import {
   ChevronRight,
 } from "lucide-react";
 import Button from "../components/Button";
-import mascotteFin from "/assets/mascot/mascotte_fin.png";
+import MascotGuide from "../components/MascotGuide";
+import { getMascotForStep } from "../utils/getMascotForStep";
 
 const FICHE = [
   {
@@ -38,7 +39,6 @@ const FICHE = [
   },
 ];
 
-// Accès de révision vers les étapes du parcours.
 const REVOIR = [
   { label: "Revoir le quiz", hint: "Étape 2", path: "/quiz", Icon: CircleHelp },
   {
@@ -55,14 +55,17 @@ const REVOIR = [
   },
 ];
 
-// Variantes pour une révélation en cascade des sections.
 const container = {
   hidden: {},
   show: { transition: { staggerChildren: 0.08, delayChildren: 0.05 } },
 };
 const item = {
   hidden: { opacity: 0, y: 18 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] } },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] },
+  },
 };
 
 export default function Resume() {
@@ -75,18 +78,11 @@ export default function Resume() {
       animate="show"
       className="flex w-full max-w-3xl flex-col items-center gap-6"
     >
-      {/* Hero de fin */}
       <motion.div
         variants={item}
         className="flex w-full flex-col items-center gap-3 rounded-3xl border border-gris-brume bg-carte px-6 py-7 text-center shadow-[5px_6px_13.7px_6px_rgba(0,0,0,0.25)] sm:px-10"
       >
-        <div className="flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-b from-vert-sauge/15 to-bleu-confiance/10 p-2">
-          <img
-            src={mascotteFin}
-            alt="Léa félicite l'utilisateur"
-            className="h-20 w-20 animate-float object-contain"
-          />
-        </div>
+        <MascotGuide mood={getMascotForStep("resume")} className="max-w-sm" />
 
         <div className="inline-flex items-center gap-1.5 rounded-full bg-vert-sauge/15 px-3 py-1 font-sous-titre text-xs font-semibold text-vert-sauge">
           <CircleCheck className="h-3.5 w-3.5" />
@@ -104,7 +100,6 @@ export default function Resume() {
         </p>
       </motion.div>
 
-      {/* Fiche pratique */}
       <motion.section variants={item} className="w-full">
         <h2 className="mb-3 text-center font-titre text-lg font-bold text-bleu-nuit sm:text-xl">
           Votre fiche pratique
@@ -131,7 +126,6 @@ export default function Resume() {
         </div>
       </motion.section>
 
-      {/* Accès de révision */}
       <motion.section variants={item} className="w-full">
         <h2 className="mb-3 text-center font-titre text-lg font-bold text-bleu-nuit sm:text-xl">
           Revoir une étape
@@ -163,7 +157,6 @@ export default function Resume() {
         </div>
       </motion.section>
 
-      {/* Recommencer */}
       <motion.div variants={item}>
         <Button variant="primary" className="px-8" onClick={() => navigate("/")}>
           <RotateCcw className="h-4 w-4" />

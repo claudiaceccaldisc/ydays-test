@@ -2,14 +2,27 @@ import { mascotGuideContent, type MascotMood } from "../data/mascotGuide";
 
 type MascotGuideProps = {
   mood: MascotMood;
+  className?: string;
 };
 
-export default function MascotGuide({ mood }: MascotGuideProps) {
+const mascotAnimationClass: Record<MascotMood, string> = {
+  welcome: "mascot-guide-welcome",
+  question: "mascot-guide-question",
+  success: "mascot-guide-pop",
+  warning: "mascot-guide-question",
+  tip: "mascot-guide-fade",
+  finish: "mascot-guide-pop",
+  confidentiality: "mascot-guide-fade",
+  guide: "mascot-guide-fade",
+  reflection: "mascot-guide-reflection",
+};
+
+export default function MascotGuide({ mood, className = "" }: MascotGuideProps) {
   const content = mascotGuideContent[mood];
 
   return (
     <aside
-      className="mascot-guide-card mascot-guide-glow w-full max-w-md overflow-hidden rounded-3xl border border-white/60"
+      className={`mascot-guide-card ${mascotAnimationClass[mood]} mascot-guide-glow w-full max-w-md overflow-hidden rounded-3xl border border-white/60 ${className}`}
       style={{ backgroundColor: "var(--mascot-cream)" }}
       aria-live="polite"
     >

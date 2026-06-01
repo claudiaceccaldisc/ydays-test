@@ -1,8 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import { Lightbulb, ArrowRight } from "lucide-react";
 import Button from "../components/Button";
+import MascotGuide from "../components/MascotGuide";
+import { getMascotForStep } from "../utils/getMascotForStep";
 import { getNextPath } from "../parcours";
-import mascotte from "/assets/mascot/mascotte_welcome.png";
 
 const STATS = [
   { value: "10", label: "Minutes max" },
@@ -21,14 +22,7 @@ export default function Introduction() {
           MINI-PARCOURS INTERACTIF · 10 MINUTES
         </p>
 
-        {/* Avatar mascotte */}
-        <div className="flex h-28 w-28 items-center justify-center rounded-full bg-gradient-to-b from-vert-sauge/15 to-bleu-confiance/10 p-3 sm:h-32 sm:w-32">
-          <img
-            src={mascotte}
-            alt="Léa, la mascotte guide RHxIA"
-            className="h-full w-full animate-float object-contain"
-          />
-        </div>
+        <MascotGuide mood={getMascotForStep("introduction")} className="max-w-sm" />
 
         <h1 className="font-titre text-2xl font-bold leading-tight text-bleu-nuit sm:text-[26px]">
           Bonjour ! Je suis Léa, votre guide RH×IA
@@ -36,7 +30,7 @@ export default function Introduction() {
 
         <p className="max-w-md font-corps text-sm text-black/80">
           Dans les 10 prochaines minutes, je vous accompagne pour comprendre
-          comment utiliser l'intelligence artificielle dans votre quotidien RH 
+          comment utiliser l'intelligence artificielle dans votre quotidien RH
           de manière responsable, sécurisée et efficace.
         </p>
 
