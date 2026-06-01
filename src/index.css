@@ -1,1 +1,35 @@
 @import "tailwindcss";
+
+:root {
+  --mascot-blue: #2456d3;
+  --mascot-sage: #6f9d8d;
+  --mascot-cream: #f7f5f1;
+  --mascot-navy: #16213e;
+  --mascot-coral: #d97a5a;
+  --mascot-mist: #d7dce2;
+}
+
+@keyframes mascot-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+.mascot-guide-card {
+  animation: mascot-float 3.6s ease-in-out infinite;
+}
+
+.mascot-guide-glow {
+  box-shadow: 0 18px 45px rgba(22, 33, 62, 0.12);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mascot-guide-card {
+    animation: none;
+  }
+}
