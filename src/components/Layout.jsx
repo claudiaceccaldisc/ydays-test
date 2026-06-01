@@ -1,48 +1,64 @@
-import { useEffect, useState } from "react";
-import { TOTAL_STEPS } from "../parcours";
+import { useOutlet, useLocation } from "react-router-dom";
+import { AnimatePresence, motion } from "framer-motion";
+import { TOTAL_STEPS, getStepByPath } from "../parcours";
 import Stepper from "./Stepper";
 
-export default function Layout({ currentStep, children }) {
-  const target = (currentStep / TOTAL_STEPS) * 100;
-  const start = ((currentStep - 1) / TOTAL_STEPS) * 100;
+// Variantes de transition entre les pages du parcours.
+const pageVariants = {
+  initial: { opacity: 0, y: 24, scale: 0.985 },
+  animate: { opacity: 1, y: 0, scale: 1 },
+  exit: { opacity: 0, y: -24, scale: 0.985 },
+};
 
-  const [width, setWidth] = useState(start);
-  useEffect(() => {
-    const id = requestAnimationFrame(() => setWidth(target));
-    return () => cancelAnimationFrame(id);
-  }, [target]);
+export default function Layout() {
+  const location = useLocation();
+  const outlet = useOutlet();
+  const current = getStepByPath(location.pathname);
+  const target = (current.step / TOTAL_STEPS) * 100;
 
   return (
     <div className="flex min-h-dvh flex-col bg-ivoire">
       {/* En-tête */}
-      <header className="flex items-center gap-6 border-b border-gris-brume bg-carte px-6 py-3.5 sm:gap-12">
-        <p className="shrink-0 font-titre text-[28px] font-bold leading-none">
+      <header className="flex items-center gap-3 border-b border-gris-brume bg-carte px-4 py-3 sm:gap-8 sm:px-6 sm:py-3.5">
+        <p className="shrink-0 font-titre text-xl font-bold leading-none sm:text-[28px]">
           <span className="text-bleu-nuit">RH</span>
           <span className="text-bleu-confiance">x</span>
           <span className="text-bleu-nuit">IA</span>
         </p>
 
-        <div className="relative h-[9px] flex-1 overflow-hidden rounded-full bg-gris-brume">
-          <div
-            className="h-full rounded-full bg-gradient-to-r from-bleu-confiance to-vert-sauge transition-[width] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
-            style={{ width: `${width}%` }}
-          >
-            {/* Reflet qui balaie la portion remplie */}
-            <span className="absolute inset-y-0 left-0 w-1/3 -skew-x-12 bg-white/40 blur-[2px] [animation:shimmer_2.4s_ease-in-out_infinite]" />
-          </div>
+        {/* Barre de progression*/}
+        <div className="h-[9px] flex-1 overflow-hidden rounded-full bg-gris-brume">
+          <motion.div
+            className="h-full rounded-full bg-gradient-to-r from-bleu-confiance to-vert-sauge"
+            initial={{ width: 0 }}
+            animate={{ width: `${target}%` }}
+            transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+          />
         </div>
 
-        <p className="shrink-0 whitespace-nowrap font-corps text-xs text-bleu-nuit">
-          Étape {currentStep} sur {TOTAL_STEPS}
+        <p className="shrink-0 whitespace-nowrap font-corps text-[11px] text-bleu-nuit sm:text-xs">
+          Étape {current.step} / {TOTAL_STEPS}
         </p>
       </header>
 
       {/* Frise des étapes */}
-      <Stepper currentStep={currentStep} />
+      <Stepper currentStep={current.step} />
 
-      {/* Contenu de la vue */}
-      <main className="flex flex-1 flex-col items-center justify-center px-6 py-6">
-        {children}
+      {/* Contenu des vues, animé en entrée/sortie */}
+      <main className="flex flex-1 flex-col items-center justify-center px-4 py-6 sm:px-6">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={location.pathname}
+            variants={pageVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+            className="flex w-full flex-1 flex-col items-center justify-center"
+          >
+            {outlet}
+          </motion.div>
+        </AnimatePresence>
       </main>
     </div>
   );

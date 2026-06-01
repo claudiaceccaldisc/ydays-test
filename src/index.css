@@ -62,16 +62,6 @@
   }
 }
 
-/* Reflet animé qui balaie la barre de progression */
-@keyframes shimmer {
-  from {
-    transform: translateX(-100%);
-  }
-  to {
-    transform: translateX(300%);
-  }
-}
-
 html,
 body,
 #root {
