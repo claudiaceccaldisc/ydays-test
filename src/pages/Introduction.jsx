@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { Lightbulb, ArrowRight } from "lucide-react";
 import Button from "../components/Button";
 import { getNextPath } from "../parcours";
-import mascotte from "/assets/mascotte_welcome.png";
+import mascotte from "/assets/mascot/mascotte_welcome.png";
 
 const STATS = [
   { value: "10", label: "Minutes max" },

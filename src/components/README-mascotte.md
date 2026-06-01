@@ -42,3 +42,15 @@ Le composant charge ses visuels depuis `public/assets/mascot/` avec les noms sui
 Image par defaut ou fallback eventuel :
 
 - `mascotte_principale.png`
+
+## Utilisation recommandee par etape
+
+- `introduction` -> `welcome`
+- `quiz` -> `question`
+- `quizSuccess` -> `success`
+- `quizError` -> `warning`
+- `action` -> `guide`
+- `confidentiality` -> `confidentiality`
+- `situation` -> `reflection`
+- `tip` -> `tip`
+- `resume` -> `finish`

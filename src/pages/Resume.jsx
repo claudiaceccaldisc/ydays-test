@@ -12,7 +12,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 import Button from "../components/Button";
-import mascotteFin from "/assets/mascotte_fin.png";
+import mascotteFin from "/assets/mascot/mascotte_fin.png";
 
 const FICHE = [
   {
