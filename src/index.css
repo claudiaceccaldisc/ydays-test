@@ -1,1 +1,96 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,600&family=IBM+Plex+Sans:wght@400;500&family=Outfit:wght@500;700&display=swap");
 @import "tailwindcss";
+
+/* Design tokens issus de la maquette Figma (RHxIA) */
+@theme {
+  --color-bleu-confiance: #2456d3;
+  --color-bleu-nuit: #16213e;
+  --color-vert-sauge: #6f9d8d;
+  --color-ivoire: #f7f5f1;
+  --color-carte: #fffefd;
+  --color-gris-brume: #d7dce2;
+
+  --font-titre: "Outfit", sans-serif;
+  --font-sous-titre: "DM Sans", sans-serif;
+  --font-corps: "IBM Plex Sans", sans-serif;
+
+  /* Animations d'entrée */
+  --animate-fade-up: fade-up 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-fade-in: fade-in 0.5s ease-out both;
+  --animate-pop: pop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  --animate-float: float 4s ease-in-out infinite;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pop {
+  0% {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+/* Reflet animé qui balaie la barre de progression */
+@keyframes shimmer {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(300%);
+  }
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--color-ivoire);
+  font-family: var(--font-corps);
+  color: var(--color-bleu-nuit);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
