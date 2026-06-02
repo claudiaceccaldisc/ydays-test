@@ -283,8 +283,8 @@ body {
 }
 
 .quiz-bubble-right::after {
-  right: -8px;
-  transform: rotate(-45deg);
+  left: -8px;
+  transform: rotate(135deg);
 }
 
 .quiz-bubble-mascot {
