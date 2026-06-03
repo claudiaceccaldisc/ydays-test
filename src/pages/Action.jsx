@@ -4,8 +4,14 @@ import {
   AlertCircle,
   ArrowRight,
   Bot,
+  Check,
+  CircleCheck,
+  Copy,
+  ListChecks,
   LoaderCircle,
   Lock,
+  Quote,
+  ShieldCheck,
   Sparkles,
 } from "lucide-react";
 import Button from "../components/Button";
@@ -21,17 +27,80 @@ import {
   actionCoachWelcome,
 } from "../data/actionCoach";
 
+function CoachPlan({ plan, copied, onCopy }) {
+  return (
+    <div className="space-y-4">
+      <p className="font-corps text-sm leading-6 text-black/80">
+        {plan.reformulation}
+      </p>
+
+      <div>
+        <p className="mb-2 flex items-center gap-1.5 font-sous-titre text-[11px] font-semibold uppercase tracking-[0.16em] text-bleu-confiance">
+          <ListChecks className="h-3.5 w-3.5" />
+          Pistes pour progresser
+        </p>
+        <ul className="space-y-2">
+          {plan.pistes.map((piste, index) => (
+            <li key={index} className="flex items-start gap-2">
+              <CircleCheck className="mt-0.5 h-4 w-4 shrink-0 text-vert-sauge" />
+              <span className="font-corps text-sm leading-6 text-black/80">
+                {piste}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div className="rounded-2xl border border-bleu-confiance/20 bg-bleu-confiance/5 px-4 py-3">
+        <div className="mb-2 flex items-center justify-between gap-2">
+          <span className="flex items-center gap-1.5 font-sous-titre text-[11px] font-semibold uppercase tracking-[0.16em] text-bleu-confiance">
+            <Quote className="h-3.5 w-3.5" />
+            Exemple de prompt
+          </span>
+          <button
+            type="button"
+            onClick={onCopy}
+            className="flex items-center gap-1 rounded-full border border-gris-brume bg-white px-2.5 py-1 font-corps text-[11px] font-medium text-bleu-nuit transition hover:border-bleu-confiance hover:text-bleu-confiance"
+          >
+            {copied ? (
+              <Check className="h-3 w-3 text-vert-sauge" />
+            ) : (
+              <Copy className="h-3 w-3" />
+            )}
+            {copied ? "Copié" : "Copier"}
+          </button>
+        </div>
+        <p className="font-corps text-sm italic leading-6 text-bleu-nuit">
+          “{plan.exemplePrompt}”
+        </p>
+      </div>
+
+      {plan.vigilance ? (
+        <div className="flex items-start gap-2 rounded-2xl bg-terracotta/10 px-4 py-3">
+          <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-terracotta" />
+          <p className="font-corps text-xs leading-5 text-black/70">
+            {plan.vigilance}
+          </p>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
 export default function Action() {
   const navigate = useNavigate();
   const [need, setNeed] = useState("");
   const [activeNeed, setActiveNeed] = useState("");
   const [answer, setAnswer] = useState(actionCoachWelcome);
+  const [plan, setPlan] = useState(null);
   const [source, setSource] = useState("idle");
   const [statusMessage, setStatusMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [hasInteracted, setHasInteracted] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   function applyLocalFallback(rawNeed, errorMessage) {
+    setPlan(null);
     const localMatch = findBestFaqMatch(rawNeed);
 
     if (localMatch) {
@@ -59,6 +128,7 @@ export default function Action() {
 
     setIsLoading(true);
     setHasInteracted(true);
+    setCopied(false);
     setActiveNeed(trimmedNeed);
     setSource("loading");
     setStatusMessage("Génération d'une proposition personnalisée en cours…");
@@ -72,7 +142,7 @@ export default function Action() {
 
       const payload = await response.json().catch(() => ({}));
 
-      if (!response.ok || !payload?.answer) {
+      if (!response.ok || !payload?.plan) {
         applyLocalFallback(
           trimmedNeed,
           payload?.error || "Le coach IA n'est pas disponible pour le moment.",
@@ -80,7 +150,7 @@ export default function Action() {
         return;
       }
 
-      setAnswer(payload.answer);
+      setPlan(payload.plan);
       setSource("ai");
       setStatusMessage("Proposition personnalisée générée par l'IA.");
     } catch {
@@ -97,7 +167,22 @@ export default function Action() {
     setNeed(prompt);
   }
 
+  async function handleCopyPrompt() {
+    if (!plan?.exemplePrompt) {
+      return;
+    }
+
+    try {
+      await navigator.clipboard.writeText(plan.exemplePrompt);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // Le presse-papiers peut être indisponible (permissions) : on ignore.
+    }
+  }
+
   const mascotMood = getMascotForStep("action");
+  const showPlan = source === "ai" && plan && !isLoading;
 
   return (
     <div className="flex w-full max-w-3xl flex-col items-center gap-6 rounded-2xl border border-gris-brume bg-carte px-6 py-10 text-center shadow-[5px_6px_13.7px_6px_rgba(0,0,0,0.25)] sm:px-8">
@@ -189,17 +274,23 @@ export default function Action() {
         </div>
 
         {activeNeed ? (
-          <p className="mb-2 font-sous-titre text-sm font-semibold text-bleu-nuit">
+          <p className="mb-3 font-sous-titre text-sm font-semibold text-bleu-nuit">
             Ton besoin : {activeNeed}
           </p>
         ) : null}
 
-        <p className="whitespace-pre-line font-corps text-sm leading-6 text-black/80">
-          {isLoading ? actionCoachLoading : answer}
-        </p>
+        {isLoading ? (
+          <p className="font-corps text-sm leading-6 text-black/80">
+            {actionCoachLoading}
+          </p>
+        ) : showPlan ? (
+          <CoachPlan plan={plan} copied={copied} onCopy={handleCopyPrompt} />
+        ) : (
+          <p className="font-corps text-sm leading-6 text-black/80">{answer}</p>
+        )}
 
         {statusMessage ? (
-          <div className="mt-3 rounded-2xl bg-white/70 px-3 py-2">
+          <div className="mt-4 rounded-2xl bg-white/70 px-3 py-2">
             <div className="flex items-start gap-2 text-black/60">
               {source === "ai" && !isLoading ? (
                 <Sparkles className="mt-0.5 h-3.5 w-3.5 shrink-0 text-bleu-confiance" />

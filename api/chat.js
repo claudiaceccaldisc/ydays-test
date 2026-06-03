@@ -16,27 +16,54 @@ Limite ta réponse à environ 120 mots maximum.
 const COACH_SYSTEM_PROMPT = `
 Tu es un coach pédagogique RH x IA dans un mini-parcours de formation.
 L'apprenant t'explique ce qu'il aimerait apprendre ou la tâche RH sur laquelle il veut progresser avec l'IA.
-Propose-lui une réponse personnalisée, concrète et bienveillante, en français, structurée ainsi :
-1. Une phrase qui reformule son besoin.
-2. 2 ou 3 pistes ou actions concrètes adaptées à sa demande, sous forme de liste courte (une par ligne, commençant par "- ").
-3. Un exemple de prompt IA réutilisable pour son cas, entre guillemets.
-4. Un rappel de vigilance (confidentialité, RGPD, anonymisation ou relecture humaine) si c'est pertinent.
-Reste pédagogique, positif et concis. Ne donne jamais de conseil juridique définitif.
+Donne une réponse personnalisée, concrète, bienveillante et concise, en français, en remplissant les champs demandés :
+- reformulation : une phrase qui reformule son besoin.
+- pistes : 2 ou 3 actions concrètes et courtes adaptées à sa demande (une phrase chacune).
+- exemplePrompt : un exemple de prompt IA réutilisable pour son cas précis.
+- vigilance : un rappel de bonne pratique (confidentialité, RGPD, anonymisation ou relecture humaine).
+Reste pédagogique et positif. N'utilise pas de markdown (pas d'astérisques). Ne donne jamais de conseil juridique définitif.
 Ne demande jamais de données personnelles ou sensibles réelles.
-Si la demande est hors du champ RH x IA, invite poliment à revenir à ces thèmes.
-Limite ta réponse à environ 160 mots.
+Si la demande est hors du champ RH x IA, reste pédagogique et invite à revenir à ces thèmes.
 `;
+
+const COACH_RESPONSE_SCHEMA = {
+  type: "OBJECT",
+  properties: {
+    reformulation: {
+      type: "STRING",
+      description: "Une phrase qui reformule le besoin de l'apprenant.",
+    },
+    pistes: {
+      type: "ARRAY",
+      description: "2 a 3 actions concretes et courtes adaptees a la demande.",
+      items: { type: "STRING" },
+    },
+    exemplePrompt: {
+      type: "STRING",
+      description: "Un exemple de prompt IA reutilisable pour ce cas precis.",
+    },
+    vigilance: {
+      type: "STRING",
+      description:
+        "Un rappel de bonne pratique : confidentialite, RGPD, anonymisation ou relecture humaine.",
+    },
+  },
+  required: ["reformulation", "pistes", "exemplePrompt", "vigilance"],
+  propertyOrdering: ["reformulation", "pistes", "exemplePrompt", "vigilance"],
+};
 
 const MODE_CONFIG = {
   glossary: {
     systemPrompt: GLOSSARY_SYSTEM_PROMPT,
     maxResponseWords: 120,
     maxOutputTokens: 400,
+    responseSchema: null,
   },
   coach: {
     systemPrompt: COACH_SYSTEM_PROMPT,
     maxResponseWords: 170,
     maxOutputTokens: 700,
+    responseSchema: COACH_RESPONSE_SCHEMA,
   },
 };
 
@@ -115,6 +142,38 @@ function extractAnswer(payload) {
     .trim();
 }
 
+function parseCoachPlan(rawText) {
+  let data;
+
+  try {
+    data = JSON.parse(rawText);
+  } catch {
+    return null;
+  }
+
+  if (!data || typeof data !== "object") {
+    return null;
+  }
+
+  const reformulation =
+    typeof data.reformulation === "string" ? data.reformulation.trim() : "";
+  const exemplePrompt =
+    typeof data.exemplePrompt === "string" ? data.exemplePrompt.trim() : "";
+  const vigilance =
+    typeof data.vigilance === "string" ? data.vigilance.trim() : "";
+  const pistes = Array.isArray(data.pistes)
+    ? data.pistes
+        .map((piste) => (typeof piste === "string" ? piste.trim() : ""))
+        .filter(Boolean)
+    : [];
+
+  if (!reformulation || pistes.length === 0 || !exemplePrompt) {
+    return null;
+  }
+
+  return { reformulation, pistes, exemplePrompt, vigilance };
+}
+
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     res.setHeader("Allow", "POST");
@@ -125,7 +184,8 @@ export default async function handler(req, res) {
   const question = typeof req.body?.question === "string" ? req.body.question.trim() : "";
   const requestedMode = typeof req.body?.mode === "string" ? req.body.mode : DEFAULT_MODE;
   const mode = MODE_CONFIG[requestedMode] ? requestedMode : DEFAULT_MODE;
-  const { systemPrompt, maxResponseWords, maxOutputTokens } = MODE_CONFIG[mode];
+  const { systemPrompt, maxResponseWords, maxOutputTokens, responseSchema } =
+    MODE_CONFIG[mode];
 
   if (!question) {
     return res.status(400).json({ error: "Merci de saisir une question." });
@@ -161,6 +221,20 @@ export default async function handler(req, res) {
   try {
     geminiCallCount += 1;
 
+    const generationConfig = {
+      temperature: 0.4,
+      maxOutputTokens,
+      // gemini-2.5-flash "pense" par defaut et ces tokens de reflexion
+      // sont decomptes de maxOutputTokens, ce qui tronque la reponse.
+      // On desactive le thinking pour des reponses courtes et completes.
+      thinkingConfig: { thinkingBudget: 0 },
+    };
+
+    if (responseSchema) {
+      generationConfig.responseMimeType = "application/json";
+      generationConfig.responseSchema = responseSchema;
+    }
+
     const response = await fetch(
       `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`,
       {
@@ -179,14 +253,7 @@ export default async function handler(req, res) {
               parts: [{ text: question }],
             },
           ],
-          generationConfig: {
-            temperature: 0.4,
-            maxOutputTokens,
-            // gemini-2.5-flash "pense" par defaut et ces tokens de reflexion
-            // sont decomptes de maxOutputTokens, ce qui tronque la reponse.
-            // On desactive le thinking pour des reponses courtes et completes.
-            thinkingConfig: { thinkingBudget: 0 },
-          },
+          generationConfig,
         }),
       }
     );
@@ -208,6 +275,19 @@ export default async function handler(req, res) {
         error:
           "Le chatbot IA n'a pas pu formuler de réponse. Essaie la réponse locale.",
       });
+    }
+
+    if (responseSchema) {
+      const plan = parseCoachPlan(answer);
+
+      if (!plan) {
+        return res.status(502).json({
+          error:
+            "Le coach IA n'a pas pu structurer de réponse. Essaie la réponse locale.",
+        });
+      }
+
+      return res.status(200).json({ plan });
     }
 
     return res.status(200).json({
