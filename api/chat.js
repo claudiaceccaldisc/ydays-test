@@ -31,12 +31,12 @@ const MODE_CONFIG = {
   glossary: {
     systemPrompt: GLOSSARY_SYSTEM_PROMPT,
     maxResponseWords: 120,
-    maxOutputTokens: 220,
+    maxOutputTokens: 400,
   },
   coach: {
     systemPrompt: COACH_SYSTEM_PROMPT,
     maxResponseWords: 170,
-    maxOutputTokens: 360,
+    maxOutputTokens: 700,
   },
 };
 
@@ -182,6 +182,10 @@ export default async function handler(req, res) {
           generationConfig: {
             temperature: 0.4,
             maxOutputTokens,
+            // gemini-2.5-flash "pense" par defaut et ces tokens de reflexion
+            // sont decomptes de maxOutputTokens, ce qui tronque la reponse.
+            // On desactive le thinking pour des reponses courtes et completes.
+            thinkingConfig: { thinkingBudget: 0 },
           },
         }),
       }
