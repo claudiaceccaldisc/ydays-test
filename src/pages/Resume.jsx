@@ -12,6 +12,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 import AiChatbot from "../components/AiChatbot";
+import BackHomeButton from "../components/BackHomeButton";
 import Button from "../components/Button";
 import MascotGuide from "../components/MascotGuide";
 import { getMascotForStep } from "../utils/getMascotForStep";
@@ -35,8 +36,8 @@ const FICHE = [
     Icon: Compass,
     titre: "Responsabilité",
     texte: "L'IA assiste, mais la décision finale vous appartient.",
-    chip: "bg-amber-400/15 text-amber-500",
-    bar: "before:bg-amber-400",
+    chip: "bg-terracotta/15 text-terracotta",
+    bar: "before:bg-terracotta",
   },
 ];
 
@@ -81,6 +82,7 @@ export default function Resume() {
         animate="show"
         className="flex w-full max-w-3xl flex-col items-center gap-6"
       >
+        <BackHomeButton label="Accueil" />
         <motion.div
           variants={item}
           className="flex w-full flex-col items-center gap-3 rounded-3xl border border-gris-brume bg-carte px-6 py-7 text-center shadow-[5px_6px_13.7px_6px_rgba(0,0,0,0.25)] sm:px-10"
@@ -98,7 +100,7 @@ export default function Resume() {
 
           <h1 className="flex items-center justify-center gap-2 font-titre text-2xl font-bold text-bleu-nuit sm:text-[28px]">
             Parcours terminé !
-            <PartyPopper className="h-6 w-6 text-amber-500" />
+            <PartyPopper className="h-6 w-6 text-terracotta" />
           </h1>
           <p className="mx-auto max-w-md font-corps text-sm text-black/80">
             Bravo, vous avez terminé le mini-parcours RH×IA. Voici votre fiche

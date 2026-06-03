@@ -1,8 +1,8 @@
 export const chatbotFallbackMessage =
-  "Je n'ai pas encore cette définition. Essaie un terme comme IA, ATS, CV, SIRH, onboarding, sourcing ou soft skills.";
+  "Je n'ai pas encore cette définition. Essayez un terme comme IA, ATS, CV, SIRH, onboarding, sourcing ou soft skills.";
 
 export const chatbotWelcomeMessage =
-  "Je suis un mini glossaire RH x IA. Choisis un terme fréquent ou saisis quelques mots-clés pour afficher une définition courte.";
+  "Je suis un mini glossaire RH x IA. Choisissez un terme fréquent ou saisissez quelques mots-clés pour afficher une définition courte.";
 
 export const chatbotFaq = [
   {

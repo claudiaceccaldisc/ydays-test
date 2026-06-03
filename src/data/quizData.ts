@@ -23,13 +23,13 @@ export type QuizModule = {
 export const quizIntro = {
   title: "Quiz RH × IA",
   text:
-    "Je vais te montrer comment l’IA peut t’aider dans tes missions RH de tous les jours, sans remplacer ton expertise.",
+    "Je vais vous montrer comment l’IA peut vous aider dans vos missions RH de tous les jours, sans remplacer votre expertise.",
 };
 
 export const quizSummary = {
   title: "Quiz terminé",
   text:
-    "Tu as revu les usages utiles, la confidentialité, le contrôle humain et le cadre légal. L’idée clé : l’IA aide, mais le RH garde la responsabilité.",
+    "Vous avez revu les usages utiles, la confidentialité, le contrôle humain et le cadre légal. L’idée clé : l’IA aide, mais le RH garde la responsabilité.",
 };
 
 export const quizModules: QuizModule[] = [
@@ -43,7 +43,7 @@ export const quizModules: QuizModule[] = [
       "L’objectif : gagner du temps sur les tâches répétitives pour que les RH se concentrent sur l’accompagnement humain, la décision et la relation avec les collaborateurs.",
     ],
     preQuestionText:
-      "D’après ce qu’on vient de voir, comment pourrais-tu utiliser l’IA de façon utile dans tes missions RH ?",
+      "D’après ce que l’on vient de voir, comment pourriez-vous utiliser l’IA de façon utile dans vos missions RH ?",
     question:
       "Parmi ces propositions, lequel est un usage pertinent de l’IA générative pour un service RH ?",
     choices: [
@@ -57,9 +57,9 @@ export const quizModules: QuizModule[] = [
     ],
     correctAnswer: "B",
     correctFeedback:
-      "Exact ! L’IA peut t’aider à rédiger plus vite, mais c’est toi qui gardes la main sur le contenu final.",
+      "Exact. L’IA peut vous aider à rédiger plus vite, mais c’est vous qui gardez la main sur le contenu final.",
     incorrectFeedback:
-      "Pas tout à fait... L’IA doit rester un outil d’appui : elle propose, mais le RH décide et adapte.",
+      "Pas tout à fait. L’IA doit rester un outil d’appui : elle propose, mais le RH décide et adapte.",
     mood: "guide",
   },
   {
@@ -72,9 +72,9 @@ export const quizModules: QuizModule[] = [
       "Les décisions de présélection et de recrutement doivent donc rester humaines, et l’IA ne doit être qu’un outil de support.",
     ],
     moduleMascotText:
-      "Le recrutement est un domaine sensible : l’IA peut aider, mais pas décider à ta place.",
+      "Le recrutement est un domaine sensible : l’IA peut aider, mais pas décider à votre place.",
     preQuestionText:
-      "Tu dois recruter avec l’aide de l’IA. Comment l’utiliser de façon responsable ?",
+      "Vous devez recruter avec l’aide de l’IA. Comment l’utiliser de façon responsable ?",
     question:
       "Quelle est la bonne façon d’utiliser l’IA dans un processus de recrutement ?",
     choices: [
@@ -91,9 +91,9 @@ export const quizModules: QuizModule[] = [
     ],
     correctAnswer: "C",
     correctFeedback:
-      "Bien joué ! L’IA peut t’aider à filtrer et organiser, mais c’est au RH de prendre la décision finale.",
+      "Bien joué. L’IA peut vous aider à filtrer et organiser, mais c’est au RH de prendre la décision finale.",
     incorrectFeedback:
-      "Non... Les décisions de recrutement et les critères sensibles ne doivent pas être entièrement automatisés. Le contrôle humain reste indispensable.",
+      "Non. Les décisions de recrutement et les critères sensibles ne doivent pas être entièrement automatisés. Le contrôle humain reste indispensable.",
     mood: "reflection",
   },
   {
@@ -106,9 +106,9 @@ export const quizModules: QuizModule[] = [
       "On privilégie les outils encadrés par l’IT, on anonymise les exemples, et on respecte la charte et le RGPD.",
     ],
     moduleMascotText:
-      "En RH, tu gères des données très sensibles : attention à ce que tu envoies à l’IA.",
+      "En RH, vous gérez des données très sensibles : attention à ce que vous envoyez à l’IA.",
     preQuestionText:
-      "Quand tu utilises l’IA, tu dois protéger les données personnelles des candidats et des salariés. Quelle pratique te semble correcte ?",
+      "Quand vous utilisez l’IA, vous devez protéger les données personnelles des candidats et des salariés. Quelle pratique vous semble correcte ?",
     question:
       "Laquelle de ces pratiques est acceptable pour un RH utilisant l’IA ?",
     choices: [
@@ -125,9 +125,9 @@ export const quizModules: QuizModule[] = [
     ],
     correctAnswer: "B",
     correctFeedback:
-      "Exactement ! Tu peux demander des modèles génériques, sans jamais divulguer de données personnelles ou sensibles.",
+      "Exactement. Vous pouvez demander des modèles génériques, sans jamais divulguer de données personnelles ou sensibles.",
     incorrectFeedback:
-      "Non... Les données RH sont très sensibles. Tu ne dois jamais les mettre dans un outil d’IA non encadré par l’entreprise.",
+      "Non. Les données RH sont très sensibles. Vous ne devez jamais les mettre dans un outil d’IA non encadré par l’entreprise.",
     mood: "confidentiality",
   },
   {
@@ -140,9 +140,9 @@ export const quizModules: QuizModule[] = [
       "On peut ensuite affiner : « rends ce texte plus simple », « réduis à 150 mots », « adapte au ton d’un message interne », etc.",
     ],
     moduleMascotText:
-      "Pour que l’IA t’aide vraiment, il faut lui parler clairement : contexte, action, résultat.",
+      "Pour que l’IA vous aide vraiment, il faut lui parler clairement : contexte, action, résultat.",
     preQuestionText:
-      "Tu veux que l’IA t’aide à écrire un mail RH. Quel type de demande va lui donner le meilleur résultat ?",
+      "Vous voulez que l’IA vous aide à écrire un mail RH. Quel type de demande va lui donner le meilleur résultat ?",
     question:
       "Lequel de ces prompts est le plus efficace pour un RH qui veut rédiger un mail aux managers pour annoncer une nouvelle formation interne ?",
     choices: [
@@ -150,15 +150,15 @@ export const quizModules: QuizModule[] = [
       { id: "B", text: "« Fais un texte sympa pour les managers. »" },
       {
         id: "C",
-        text: "« Tu es un RH. Rédige un mail clair et professionnel à destination des managers pour annoncer une nouvelle formation interne sur l’IA, en 3 courts paragraphes. »",
+        text: "« Vous êtes un RH. Rédigez un mail clair et professionnel à destination des managers pour annoncer une nouvelle formation interne sur l’IA, en 3 courts paragraphes. »",
       },
       { id: "D", text: "« Donne un truc à envoyer aux gens. »" },
     ],
     correctAnswer: "C",
     correctFeedback:
-      "Parfait ! Plus ton prompt est précis (contexte, audience, ton, format), plus la réponse sera utile.",
+      "Parfait. Plus votre prompt est précis (contexte, audience, ton, format), plus la réponse sera utile.",
     incorrectFeedback:
-      "Ce n’est pas le meilleur prompt. Pour que l’IA t’aide bien, tu dois donner du contexte, la cible et le format souhaité.",
+      "Ce n’est pas le meilleur prompt. Pour que l’IA vous aide efficacement, vous devez donner du contexte, la cible et le format souhaité.",
     mood: "guide",
   },
   {
@@ -171,11 +171,11 @@ export const quizModules: QuizModule[] = [
       "L’IA n’a pas la responsabilité juridique : c’est toujours le RH qui signe et endosse le contenu.",
     ],
     moduleMascotText:
-      "L’IA te fait gagner du temps, mais c’est à toi de vérifier et d’adapter ce qu’elle produit.",
+      "L’IA vous fait gagner du temps, mais c’est à vous de vérifier et d’adapter ce qu’elle produit.",
     preQuestionText:
-      "L’IA t’a proposé un message RH. Que fais-tu avant de l’envoyer à tous les collaborateurs ?",
+      "L’IA vous a proposé un message RH. Que faites-vous avant de l’envoyer à tous les collaborateurs ?",
     question:
-      "Après avoir obtenu un texte de l’IA pour un message RH important, que dois-tu faire ?",
+      "Après avoir obtenu un texte de l’IA pour un message RH important, que devez-vous faire ?",
     choices: [
       { id: "A", text: "Le publier immédiatement tel quel." },
       {
@@ -187,9 +187,9 @@ export const quizModules: QuizModule[] = [
     ],
     correctAnswer: "B",
     correctFeedback:
-      "Exact ! Tu dois rester le garant du contenu : vérification, adaptation, respect de la culture et du cadre légal.",
+      "Exact. Vous devez rester le garant du contenu : vérification, adaptation, respect de la culture et du cadre légal.",
     incorrectFeedback:
-      "Non... Un message RH ne doit jamais être envoyé sans relecture humaine. Tu restes responsable de ce qui est diffusé.",
+      "Non. Un message RH ne doit jamais être envoyé sans relecture humaine. Vous restez responsable de ce qui est diffusé.",
     mood: "reflection",
   },
   {
@@ -202,9 +202,9 @@ export const quizModules: QuizModule[] = [
       "Les RH doivent donc connaître ces règles et vérifier que l’usage de l’IA reste conforme aux obligations de non-discrimination et de protection des données.",
     ],
     moduleMascotText:
-      "En RH, tu es aussi garant du cadre légal : l’IA doit respecter les règles de l’entreprise et de la loi.",
+      "En RH, vous êtes aussi garant du cadre légal : l’IA doit respecter les règles de l’entreprise et de la loi.",
     preQuestionText:
-      "Tu veux intégrer un nouvel usage de l’IA dans un processus RH. Quelle est la bonne démarche ?",
+      "Vous voulez intégrer un nouvel usage de l’IA dans un processus RH. Quelle est la bonne démarche ?",
     question:
       "Que doit faire un RH avant de déployer un nouvel usage de l’IA dans un processus RH ?",
     choices: [
@@ -220,7 +220,7 @@ export const quizModules: QuizModule[] = [
     correctFeedback:
       "Parfait. Un usage d’IA en RH doit toujours être aligné avec la charte interne, la sécurité des données et la loi.",
     incorrectFeedback:
-      "Non... On ne peut pas déployer l’IA en RH sans vérifier le cadre légal et les règles internes. Il faut impliquer les bonnes parties prenantes.",
+      "Non. On ne peut pas déployer l’IA en RH sans vérifier le cadre légal et les règles internes. Il faut impliquer les bonnes parties prenantes.",
     mood: "confidentiality",
   },
 ];

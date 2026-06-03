@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowRight, Bell, CircleAlert, CircleCheck } from "lucide-react";
+import BackHomeButton from "../components/BackHomeButton";
 import Button from "../components/Button";
 import MascotGuide from "../components/MascotGuide";
 import { getNextPath } from "../parcours";
@@ -111,6 +112,7 @@ export default function Situation() {
 
   return (
     <div className="flex w-full max-w-3xl flex-col items-center gap-6 rounded-2xl border border-gris-brume bg-carte px-6 py-10 text-center shadow-[5px_6px_13.7px_6px_rgba(0,0,0,0.25)] sm:px-8">
+      <BackHomeButton label="Accueil" />
       <MascotGuide mood={mascotMood} className="max-w-[10rem]" imageOnly compact />
 
       <div className="space-y-2">
@@ -120,29 +122,38 @@ export default function Situation() {
         <p className="font-corps text-sm text-black/70">Le téléphone de Camille</p>
       </div>
 
-      <div className="quiz-bubble quiz-bubble-left w-full rounded-2xl bg-bleu-confiance/10 px-4 py-4 text-left shadow-[-3px_0px_0px_0px_#2456d3]">
-        <div className="flex items-center gap-2 font-sous-titre text-xs font-semibold uppercase tracking-wide text-bleu-confiance">
-          <Bell className="h-4 w-4" />
-          Nouveau message RH reçu
-        </div>
-        <p className="mt-3 font-corps text-sm text-black/80">
-          Bonjour Camille, peux-tu préparer une réponse à un salarié qui demande
-          un aménagement d’horaire ?
+      <div className="w-full rounded-2xl border border-gris-brume bg-carte px-5 py-5 text-left">
+        <p className="font-sous-titre text-xs font-semibold uppercase tracking-wide text-vert-sauge">
+          Mise en situation
         </p>
-      </div>
 
-      <div className="flex w-full flex-col items-center gap-3 sm:flex-row sm:items-center sm:gap-4">
-        <MascotGuide mood={mascotMood} className="shrink-0" imageOnly compact />
-        <div className="quiz-bubble quiz-bubble-right quiz-bubble-question w-full rounded-3xl px-5 py-4 text-left sm:flex-1">
-          <p className="font-corps text-sm leading-6 text-black/80">
-            Avant d’utiliser l’IA, il faut identifier les risques.
+        <div className="quiz-bubble quiz-bubble-left mt-4 w-full rounded-2xl bg-bleu-confiance/10 px-4 py-4 text-left shadow-[-3px_0px_0px_0px_#2456d3]">
+          <div className="flex items-center gap-2 font-sous-titre text-xs font-semibold uppercase tracking-wide text-bleu-confiance">
+            <Bell className="h-4 w-4" />
+            Nouveau message RH reçu
+          </div>
+          <p className="mt-3 font-corps text-sm text-black/80">
+            Bonjour Camille, pouvez-vous préparer une réponse à un salarié qui demande
+            un aménagement d’horaire ?
           </p>
+        </div>
+
+        <div className="mt-4 flex w-full flex-col items-center gap-3 sm:flex-row sm:items-center sm:gap-4">
+          <MascotGuide mood={mascotMood} className="shrink-0" imageOnly compact />
+          <div className="quiz-bubble quiz-bubble-right quiz-bubble-question w-full rounded-3xl px-5 py-4 text-left sm:flex-1">
+            <p className="font-corps text-sm leading-6 text-black/80">
+              Avant d’utiliser l’IA, il faut identifier les risques.
+            </p>
+          </div>
         </div>
       </div>
 
       <div className="w-full rounded-2xl border border-gris-brume bg-ivoire px-5 py-5 text-left">
-        <h2 className="font-sous-titre text-lg font-semibold text-bleu-nuit">
-          Que dois-tu vérifier avant d’utiliser l’IA ?
+        <p className="font-sous-titre text-xs font-semibold uppercase tracking-wide text-bleu-confiance">
+          Question
+        </p>
+        <h2 className="mt-2 font-sous-titre text-lg font-semibold text-bleu-nuit">
+          Que devez-vous vérifier avant d’utiliser l’IA ?
         </h2>
 
         <div className="mt-4 grid gap-3">
@@ -208,8 +219,7 @@ export default function Situation() {
             {ACTION_OPTIONS.map((option) => {
               const isSelected = selectedAction === option.id;
               const isCorrect = actionAnswered && option.isCorrect;
-              const isWrongSelected =
-                actionAnswered && isSelected && !option.isCorrect;
+              const isWrongSelected = actionAnswered && isSelected && !option.isCorrect;
 
               return (
                 <button
@@ -258,9 +268,7 @@ export default function Situation() {
                 <p className="font-sous-titre text-xs font-semibold uppercase tracking-wide text-bleu-confiance">
                   Exemple de réponse finale
                 </p>
-                <p className="mt-2 font-corps text-sm text-black/80">
-                  {FINAL_RESPONSE}
-                </p>
+                <p className="mt-2 font-corps text-sm text-black/80">{FINAL_RESPONSE}</p>
               </div>
             </>
           ) : null}
