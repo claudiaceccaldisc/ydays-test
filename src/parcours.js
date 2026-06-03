@@ -1,7 +1,7 @@
 export const STEPS = [
   { key: "introduction", path: "/", step: 1, label: "Introduction" },
-  { key: "quiz", path: "/quiz", step: 2, label: "Quiz" },
-  { key: "situation", path: "/situation", step: 3, label: "Mise en situation" },
+  { key: "situation", path: "/situation", step: 2, label: "Mise en situation" },
+  { key: "quiz", path: "/quiz", step: 3, label: "Quiz" },
   { key: "action", path: "/action", step: 4, label: "L'IA en action" },
   { key: "resume", path: "/resume", step: 5, label: "Résumé" },
 ];

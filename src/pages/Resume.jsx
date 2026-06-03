@@ -4,15 +4,14 @@ import {
   Lock,
   CircleCheck,
   Compass,
-  CircleHelp,
   Drama,
+  CircleHelp,
   Zap,
   RotateCcw,
   PartyPopper,
   ChevronRight,
 } from "lucide-react";
 import AiChatbot from "../components/AiChatbot";
-import BackHomeButton from "../components/BackHomeButton";
 import Button from "../components/Button";
 import MascotGuide from "../components/MascotGuide";
 import { getMascotForStep } from "../utils/getMascotForStep";
@@ -42,12 +41,17 @@ const FICHE = [
 ];
 
 const REVOIR = [
-  { label: "Revoir le quiz", hint: "Étape 2", path: "/quiz", Icon: CircleHelp },
   {
     label: "Revoir la mise en situation",
-    hint: "Étape 3",
+    hint: "Étape 2",
     path: "/situation",
     Icon: Drama,
+  },
+  {
+    label: "Revoir le quiz",
+    hint: "Étape 3",
+    path: "/quiz",
+    Icon: CircleHelp,
   },
   {
     label: "Revoir l'IA en action",
@@ -82,7 +86,6 @@ export default function Resume() {
         animate="show"
         className="flex w-full max-w-3xl flex-col items-center gap-6"
       >
-        <BackHomeButton label="Accueil" />
         <motion.div
           variants={item}
           className="flex w-full flex-col items-center gap-3 rounded-3xl border border-gris-brume bg-carte px-6 py-7 text-center shadow-[5px_6px_13.7px_6px_rgba(0,0,0,0.25)] sm:px-10"

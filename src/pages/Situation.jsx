@@ -1,7 +1,6 @@
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowRight, Bell, CircleAlert, CircleCheck } from "lucide-react";
-import BackHomeButton from "../components/BackHomeButton";
 import Button from "../components/Button";
 import MascotGuide from "../components/MascotGuide";
 import { getNextPath } from "../parcours";
@@ -112,7 +111,6 @@ export default function Situation() {
 
   return (
     <div className="flex w-full max-w-3xl flex-col items-center gap-6 rounded-2xl border border-gris-brume bg-carte px-6 py-10 text-center shadow-[5px_6px_13.7px_6px_rgba(0,0,0,0.25)] sm:px-8">
-      <BackHomeButton label="Accueil" />
       <MascotGuide mood={mascotMood} className="max-w-[10rem]" imageOnly compact />
 
       <div className="space-y-2">
@@ -150,7 +148,7 @@ export default function Situation() {
 
       <div className="w-full rounded-2xl border border-gris-brume bg-ivoire px-5 py-5 text-left">
         <p className="font-sous-titre text-xs font-semibold uppercase tracking-wide text-bleu-confiance">
-          Question
+          Question (plusieurs choix sont possibles)
         </p>
         <h2 className="mt-2 font-sous-titre text-lg font-semibold text-bleu-nuit">
           Que devez-vous vérifier avant d’utiliser l’IA ?
