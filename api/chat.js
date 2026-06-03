@@ -1,10 +1,9 @@
 const GEMINI_MODEL = "gemini-2.5-flash";
 const MAX_QUESTION_LENGTH = 300;
-const MAX_RESPONSE_WORDS = 120;
 const MAX_GEMINI_CALLS = 30;
 let geminiCallCount = 0;
 
-const SYSTEM_PROMPT = `
+const GLOSSARY_SYSTEM_PROMPT = `
 Tu es un assistant RH x IA pour un mini-parcours pédagogique.
 Réponds uniquement sur les sujets suivants : RH, IA, confidentialité, recrutement, prompt, RGPD, bonnes pratiques d'usage.
 Réponds de façon courte, claire et pédagogique, en français.
@@ -13,6 +12,35 @@ Rappelle si utile qu'il ne faut jamais saisir de données personnelles ou sensib
 Si la question est hors sujet, indique poliment que tu es limité au parcours RH x IA et invite à revenir à ces thèmes.
 Limite ta réponse à environ 120 mots maximum.
 `;
+
+const COACH_SYSTEM_PROMPT = `
+Tu es un coach pédagogique RH x IA dans un mini-parcours de formation.
+L'apprenant t'explique ce qu'il aimerait apprendre ou la tâche RH sur laquelle il veut progresser avec l'IA.
+Propose-lui une réponse personnalisée, concrète et bienveillante, en français, structurée ainsi :
+1. Une phrase qui reformule son besoin.
+2. 2 ou 3 pistes ou actions concrètes adaptées à sa demande, sous forme de liste courte (une par ligne, commençant par "- ").
+3. Un exemple de prompt IA réutilisable pour son cas, entre guillemets.
+4. Un rappel de vigilance (confidentialité, RGPD, anonymisation ou relecture humaine) si c'est pertinent.
+Reste pédagogique, positif et concis. Ne donne jamais de conseil juridique définitif.
+Ne demande jamais de données personnelles ou sensibles réelles.
+Si la demande est hors du champ RH x IA, invite poliment à revenir à ces thèmes.
+Limite ta réponse à environ 160 mots.
+`;
+
+const MODE_CONFIG = {
+  glossary: {
+    systemPrompt: GLOSSARY_SYSTEM_PROMPT,
+    maxResponseWords: 120,
+    maxOutputTokens: 220,
+  },
+  coach: {
+    systemPrompt: COACH_SYSTEM_PROMPT,
+    maxResponseWords: 170,
+    maxOutputTokens: 360,
+  },
+};
+
+const DEFAULT_MODE = "glossary";
 
 const ALLOWED_TOPIC_KEYWORDS = [
   "rh",
@@ -95,6 +123,9 @@ export default async function handler(req, res) {
 
   const apiKey = process.env.GEMINI_API_KEY;
   const question = typeof req.body?.question === "string" ? req.body.question.trim() : "";
+  const requestedMode = typeof req.body?.mode === "string" ? req.body.mode : DEFAULT_MODE;
+  const mode = MODE_CONFIG[requestedMode] ? requestedMode : DEFAULT_MODE;
+  const { systemPrompt, maxResponseWords, maxOutputTokens } = MODE_CONFIG[mode];
 
   if (!question) {
     return res.status(400).json({ error: "Merci de saisir une question." });
@@ -140,7 +171,7 @@ export default async function handler(req, res) {
         },
         body: JSON.stringify({
           systemInstruction: {
-            parts: [{ text: SYSTEM_PROMPT.trim() }],
+            parts: [{ text: systemPrompt.trim() }],
           },
           contents: [
             {
@@ -150,7 +181,7 @@ export default async function handler(req, res) {
           ],
           generationConfig: {
             temperature: 0.4,
-            maxOutputTokens: 220,
+            maxOutputTokens,
           },
         }),
       }
@@ -176,7 +207,7 @@ export default async function handler(req, res) {
     }
 
     return res.status(200).json({
-      answer: trimToWordLimit(answer, MAX_RESPONSE_WORDS),
+      answer: trimToWordLimit(answer, maxResponseWords),
     });
   } catch {
     return res.status(500).json({
