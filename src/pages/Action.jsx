@@ -1,6 +1,19 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
+import {
+  AlertCircle,
+  ArrowRight,
+  Bot,
+  Check,
+  CircleCheck,
+  Copy,
+  ListChecks,
+  LoaderCircle,
+  Lock,
+  Quote,
+  ShieldCheck,
+  Sparkles,
+} from "lucide-react";
 import Button from "../components/Button";
 import MascotGuide from "../components/MascotGuide";
 import { getMascotForStep } from "../utils/getMascotForStep";

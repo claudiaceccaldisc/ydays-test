@@ -24,9 +24,7 @@ export default function AiChatbot() {
   const [activeQuestion, setActiveQuestion] = useState("");
   const [activeAnswer, setActiveAnswer] = useState(chatbotWelcomeMessage);
   const [activeSource, setActiveSource] = useState("local");
-  const [statusMessage, setStatusMessage] = useState(
-    ""
-  );
+  const [statusMessage, setStatusMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   function applyLocalFallback(rawQuery, errorMessage) {
@@ -40,7 +38,7 @@ export default function AiChatbot() {
       setStatusMessage(
         errorMessage
           ? `${errorMessage} Voici la réponse locale la plus proche.`
-          : "Réponse locale affichée."
+          : "",
       );
       return;
     }
@@ -50,7 +48,7 @@ export default function AiChatbot() {
     setActiveSource("local");
     setStatusMessage(
       errorMessage ||
-        "Aucune réponse IA ou locale précise n'a été trouvée pour cette question."
+        "Aucune réponse IA ou locale précise n'a été trouvée pour cette question.",
     );
   }
 
@@ -59,7 +57,7 @@ export default function AiChatbot() {
     setActiveQuestion(entry.question);
     setActiveAnswer(entry.answer);
     setActiveSource("local");
-    setStatusMessage("Définition locale affichée.");
+    setStatusMessage("");
     setIsLoading(false);
   }
 
@@ -91,8 +89,7 @@ export default function AiChatbot() {
       if (!response.ok || !payload?.answer) {
         applyLocalFallback(
           trimmedQuery,
-          payload?.error ||
-            "Le chatbot IA n'est pas disponible pour le moment."
+          payload?.error || "Le chatbot IA n'est pas disponible pour le moment.",
         );
         return;
       }
@@ -103,7 +100,7 @@ export default function AiChatbot() {
     } catch {
       applyLocalFallback(
         trimmedQuery,
-        "Impossible de joindre le chatbot IA pour le moment."
+        "Impossible de joindre le chatbot IA pour le moment.",
       );
     } finally {
       setIsLoading(false);
@@ -130,9 +127,6 @@ export default function AiChatbot() {
                 <h2 className="mt-1 font-titre text-lg font-bold text-bleu-nuit">
                   Chatbot RH x IA
                 </h2>
-                <p className="mt-1 font-corps text-xs leading-5 text-black/65">
-                  IA serveur si disponible, sinon glossaire local.
-                </p>
               </div>
               <button
                 type="button"
@@ -206,7 +200,7 @@ export default function AiChatbot() {
                       ? "Réponse en cours"
                       : activeSource === "ai"
                         ? "Réponse IA"
-                        : "Réponse locale"}
+                        : "Réponse"}
                   </span>
                 </div>
 
@@ -222,16 +216,18 @@ export default function AiChatbot() {
                     : activeAnswer}
                 </p>
 
-                <div className="mt-3 rounded-2xl bg-white/70 px-3 py-2">
-                  <div className="flex items-start gap-2 text-black/60">
-                    {activeSource === "ai" && !isLoading ? (
-                      <Sparkles className="mt-0.5 h-3.5 w-3.5 shrink-0 text-bleu-confiance" />
-                    ) : (
-                      <AlertCircle className="mt-0.5 h-3.5 w-3.5 shrink-0 text-terracotta" />
-                    )}
-                    <p className="font-corps text-xs leading-5">{statusMessage}</p>
+                {statusMessage ? (
+                  <div className="mt-3 rounded-2xl bg-white/70 px-3 py-2">
+                    <div className="flex items-start gap-2 text-black/60">
+                      {activeSource === "ai" && !isLoading ? (
+                        <Sparkles className="mt-0.5 h-3.5 w-3.5 shrink-0 text-bleu-confiance" />
+                      ) : (
+                        <AlertCircle className="mt-0.5 h-3.5 w-3.5 shrink-0 text-terracotta" />
+                      )}
+                      <p className="font-corps text-xs leading-5">{statusMessage}</p>
+                    </div>
                   </div>
-                </div>
+                ) : null}
               </div>
             </div>
           </section>
@@ -242,11 +238,7 @@ export default function AiChatbot() {
           onClick={() => setIsOpen((current) => !current)}
           className="fake-ai-chatbot-trigger group flex items-center gap-3 rounded-full border border-gris-brume bg-carte px-3 py-2 pr-4 text-left"
           aria-expanded={isOpen}
-          aria-label={
-            isOpen
-              ? "Fermer l'assistant RH IA"
-              : "Ouvrir l'assistant RH IA"
-          }
+          aria-label={isOpen ? "Fermer l'assistant RH IA" : "Ouvrir l'assistant RH IA"}
         >
           <span
             className="fake-ai-chatbot-avatar relative flex h-12 w-12 shrink-0 items-center justify-center rounded-full"

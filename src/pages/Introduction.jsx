@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
 import { Lightbulb, ArrowRight } from "lucide-react";
-import AiChatbot from "../components/AiChatbot";
 import Button from "../components/Button";
 import MascotGuide from "../components/MascotGuide";
 import { getMascotForStep } from "../utils/getMascotForStep";
@@ -85,7 +84,6 @@ export default function Introduction() {
           </p>
         </div>
       </div>
-      <AiChatbot />
     </>
   );
 }
