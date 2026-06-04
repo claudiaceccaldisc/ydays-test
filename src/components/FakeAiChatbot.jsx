@@ -54,11 +54,9 @@ export default function FakeAiChatbot() {
                 />
               </div>
               <div className="min-w-0 flex-1">
-                
                 <h2 className="mt-1 font-titre text-lg font-bold text-bleu-nuit">
-                  FAQ RH x IA
+                  FAQ ALTIS
                 </h2>
-               
               </div>
               <button
                 type="button"
@@ -73,7 +71,7 @@ export default function FakeAiChatbot() {
             <div className="space-y-4 px-4 py-4">
               <form onSubmit={handleSearch} className="flex items-center gap-2">
                 <label htmlFor="fake-ai-chatbot-search" className="sr-only">
-                  Rechercher une définition ou une question RH IA
+                  Rechercher une question ALTIS
                 </label>
                 <div className="relative min-w-0 flex-1">
                   <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-black/35" />
@@ -138,7 +136,7 @@ export default function FakeAiChatbot() {
           onClick={() => setIsOpen((current) => !current)}
           className="fake-ai-chatbot-trigger group flex items-center gap-3 rounded-full border border-gris-brume bg-carte px-3 py-2 pr-4 text-left"
           aria-expanded={isOpen}
-          aria-label={isOpen ? "Fermer l'assistant FAQ RH IA" : "Ouvrir l'assistant FAQ RH IA"}
+          aria-label={isOpen ? "Fermer l'assistant FAQ ALTIS" : "Ouvrir l'assistant FAQ ALTIS"}
         >
           <span
             className="fake-ai-chatbot-avatar relative flex h-12 w-12 shrink-0 items-center justify-center rounded-full"
@@ -156,7 +154,7 @@ export default function FakeAiChatbot() {
               Aide rapide
             </span>
             <span className="block font-corps text-sm text-bleu-nuit">
-              FAQ RH x IA
+              FAQ ALTIS
             </span>
           </span>
           <MessageCircle className="h-4 w-4 shrink-0 text-bleu-confiance transition group-hover:scale-110" />

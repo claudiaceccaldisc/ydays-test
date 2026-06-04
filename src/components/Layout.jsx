@@ -2,6 +2,7 @@ import { useOutlet, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { TOTAL_STEPS, getStepByPath } from "../parcours";
 import Stepper from "./Stepper";
+import logoAltis from "../assets/logo_altis.png";
 
 // Variantes de transition entre les pages du parcours.
 const pageVariants = {
@@ -20,11 +21,13 @@ export default function Layout() {
     <div className="flex min-h-dvh flex-col bg-ivoire">
       {/* En-tête */}
       <header className="flex items-center gap-3 border-b border-gris-brume bg-carte px-4 py-3 sm:gap-8 sm:px-6 sm:py-3.5">
-        <p className="shrink-0 font-titre text-xl font-bold leading-none sm:text-[28px]">
-          <span className="text-bleu-nuit">RH</span>
-          <span className="text-bleu-confiance">x</span>
-          <span className="text-bleu-nuit">IA</span>
-        </p>
+        <div className="flex shrink-0 items-center gap-2 sm:gap-3">
+          <img
+            src={logoAltis}
+            alt="Logo ALTIS"
+            className="h-10 w-auto object-contain sm:h-11"
+          />
+        </div>
 
         {/* Barre de progression*/}
         <div className="h-[9px] flex-1 overflow-hidden rounded-full bg-gris-brume">
